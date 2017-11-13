@@ -1,0 +1,118 @@
+//Sudoku
+//Author: Tre' Jeter
+//Date: 01/31/2017
+//Purpose: determine if a 9x9 matrix is a Sudoku solution
+
+import java.util.Scanner;
+import java.io.*;
+
+public class Sudoku 
+{
+    public static void main(String [] args) throws IOException
+    {
+    	String FileName;
+    	Scanner Keyboard = new Scanner(System.in); 
+    	Scanner InFile;
+    	System.out.println("Please enter the name of the input file: ");
+    	FileName = Keyboard.nextLine();
+    	InFile = new Scanner(new File(FileName));
+    	File file = new File(FileName);
+    	int [][] Sudoku = new int [9][9];
+    	while(InFile.hasNextInt())
+    	{
+    	  for (int i = 0; i < Sudoku.length; i++)
+    	  {
+    		for (int j = 0; j < Sudoku.length; j++)
+    		{
+    			Sudoku[i][j] = InFile.nextInt();
+    		}//end for
+    	  }//end for
+    	}//end while
+    	for (int y = 0; y < Sudoku.length; y++)
+  	    {
+    		System.out.println();
+  		for (int z = 0; z < Sudoku.length; z++)
+  		{
+  			System.out.print(Sudoku[y][z]);
+  		}//end for
+  	  }//end for
+    	System.out.println();
+    	for(int i = 0; i < 9; i++)
+    	{
+    	RowIsCorrect(Sudoku, i);
+    	}//end for
+    	System.out.println("Row is correct");
+    	for(int j = 0; j < 9; j++)
+    	{
+    	ColumnIsCorrect(Sudoku, j);
+    	}//end for
+    	System.out.println("Column is correct");
+    	for(int i = 0; i < 7; i += 3)
+    	{
+    		for(int j = 0; j < 7; j += 3)
+    		{
+    			SectionIsCorrect(Sudoku, i, j);
+    		}//end for
+    	}//end for
+    	System.out.println("Section is correct");
+    	System.out.println("The Sudoku is a solution");
+    }//end main method
+    
+   public static boolean RowIsCorrect(int [][] Sudoku, int i) throws IOException
+   {
+	    boolean [] A = new boolean [9];
+    	for (int j = 0; j <= 8; j++)
+    	{
+    	    A[Sudoku[i][j] - 1] = true;
+    	}//end for
+    	for(int j = 0; j <= 8; j++)
+    	{
+    		if(A[j] == false) 
+    		{
+    			System.out.println("Row is not correct");
+    			System.out.println("The Sudoku is not a solution");
+    			System.exit(0);
+    		}//end if
+    	}//end for
+    	return true;
+    }//end method RowIsCorrect
+    
+    public static boolean ColumnIsCorrect(int [][] Sudoku, int j) throws IOException
+    {
+    	boolean [] A = new boolean [9];
+    	for (int i = 0; i <= 8; i++)
+    	{
+    		A[Sudoku[i][j] - 1] = true;
+    	}//end for
+    	for(int i = 0; j <= 8; j++)
+    	{
+    		if(A[i] == false)
+    		{
+    			System.out.println("Column is not correct");
+    			System.exit(0);
+    		}//end if
+    	}//end for
+    	return true;
+    }//end method ColumnIsCorrect
+   
+    public static boolean SectionIsCorrect(int [][] Sudoku, int x, int y) throws IOException
+    {
+    	boolean [] A = new boolean [9];
+    	for(int i = x; i < 3 + x; i++)
+    	{
+    		for(int j = y; j < 3 + y; j++)
+    		{
+    			A[Sudoku[i][j] - 1] = true;
+    		}//end for
+    	}//end for
+    	for(x = 0; y <= 8; y++)
+    	{
+    		if(A[x] == false)
+    		{
+    			System.out.println("Section is not correct");
+    			System.exit(0);
+    		}//end if
+    	}//end for
+    	return true;
+    }//end method SectionIsCorrect
+}//end class Sudoku
